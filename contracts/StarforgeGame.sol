@@ -128,7 +128,14 @@ contract StarforgeGame {
     /// @notice uniform symbol in [0, TOTAL_WEIGHT): reject v >= 65514
     function _drawSymbol(Cursor memory c) internal pure returns (uint8) {
         while (true) {
-            uint16 v = (uint16(_nextByte(c)) << 8) | uint16(_nextByte(c));
+            // NOTE: explicit temporaries — Solidity does NOT guarantee
+            // evaluation order of the two _nextByte calls in one expression
+            // (solc 0.8.28 codegen evaluates right-to-left, which silently
+            // swaps the byte pair vs the reference simulator). b0 is the
+            // high byte, matching simulator/parity.py.
+            uint8 b0 = _nextByte(c);
+            uint8 b1 = _nextByte(c);
+            uint16 v = (uint16(b0) << 8) | uint16(b1);
             if (v < SYMBOL_REJECT) {
                 uint16 w = v % TOTAL_WEIGHT;
                 if (w < 30) return 0;
