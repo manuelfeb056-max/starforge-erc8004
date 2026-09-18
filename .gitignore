@@ -3,3 +3,4 @@ build/
 *.log
 .env
 .deployer.key
+__pycache__/
