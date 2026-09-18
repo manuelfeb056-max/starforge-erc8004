@@ -19,14 +19,18 @@ $0 gastados, sin wallets reales, sin mainnet.
 
 ## Direcciones — Monad testnet (chainId 10143)
 
+Desplegado 2026-09-18. Agente ERC-8004 **id 1879** (`0xeA682f1970bb3377498a4910BC237CE849Da64Fd`):
+5 sesiones jugadas, 4 liquidadas, RTP lifetime **105.18%**, 4 feedbacks en el
+ReputationRegistry oficial (tag `starforge/session`). Demo: `frontend/index.html`.
+
 | Contrato | Dirección |
 |---|---|
 | ERC-8004 IdentityRegistry (oficial) | `0x8004A818BFB912233c491871b3d84c89A494BD9e` |
 | ERC-8004 ReputationRegistry (oficial) | `0x8004B663056A597Dffe9eCcC1965A193B7388713` |
-| StarforgeGame | _(pendiente: deploy tras faucet)_ |
-| BlockhashRandomness | _(pendiente)_ |
-| AgentReputation | _(pendiente)_ |
-| StarforgeArena | _(pendiente)_ |
+| StarforgeGame | `0x0f553b6388Ca7833fcc7e30c1cA200b79B99adA8` |
+| BlockhashRandomness | `0xD0574682B0c8D46c5423dd59cb1e55579CAba3c8` |
+| AgentReputation | `0x210D64fb460322fe90c1E7025b1700864a811577` |
+| StarforgeArena | `0xcA53e0a7B6D85b4e84dCB1993a2780349BB4149d` |
 
 RPC: `https://rpc.ankr.com/monad_testnet` (el oficial `testnet-rpc.monad.xyz`
 no respondía el 2026-09-18).
