@@ -19,9 +19,14 @@ $0 gastados, sin wallets reales, sin mainnet.
 
 ## Direcciones — Monad testnet (chainId 10143)
 
-Desplegado 2026-09-18. Agente ERC-8004 **id 1879** (`0xeA682f1970bb3377498a4910BC237CE849Da64Fd`):
-5 sesiones jugadas, 4 liquidadas, RTP lifetime **105.18%**, 4 feedbacks en el
-ReputationRegistry oficial (tag `starforge/session`). Demo: `frontend/index.html`.
+Desplegado 2026-09-18. Agente ERC-8004 **id 1880** (`0xFC4d1DF0a3199A21dBE3ee9FD2D367A198744b03`):
+sesiones jugadas por el bot demo en testnet, cada liquidación publicada como
+feedback en el ReputationRegistry oficial (tag `starforge/session`). Demo: `frontend/index.html`.
+
+> **Rotación 2026-09-18:** el agente anterior (id 1879, `0xeA682f1970bb3377498a4910BC237CE849Da64Fd`)
+> quedó comprometido porque su clave privada se publicó por accidente en el commit
+> `b287e98`. El historial Git se purgó (filter-repo + force-push) y se registró un
+> agente nuevo. La wallet vieja se considera quemada: no usarla más.
 
 | Contrato | Dirección |
 |---|---|

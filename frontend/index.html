@@ -52,13 +52,13 @@
 <section>
 <h2>Live agent track record</h2>
 <div class="stats">
-  <div class="stat"><div class="v">#1879</div><div class="l">ERC-8004 agent id</div></div>
-  <div class="stat"><div class="v">4</div><div class="l">settled sessions</div></div>
-  <div class="stat"><div class="v">105.18%</div><div class="l">lifetime RTP on-chain</div></div>
-  <div class="stat"><div class="v">4</div><div class="l">feedback entries on the official ERC-8004 ReputationRegistry</div></div>
+  <div class="stat"><div class="v">#1880</div><div class="l">ERC-8004 agent id</div></div>
+  <div class="stat"><div class="v">3</div><div class="l">settled sessions</div></div>
+  <div class="stat"><div class="v">251.62%</div><div class="l">lifetime RTP on-chain</div></div>
+  <div class="stat"><div class="v">3</div><div class="l">feedback entries on the official ERC-8004 ReputationRegistry</div></div>
 </div>
-<p class="sub">Wallet <a href="https://testnet.monadexplorer.com/address/0xeA682f1970bb3377498a4910BC237CE849Da64Fd" target="_blank" rel="noopener">0xeA682f1970bb3377498a4910BC237CE849Da64Fd</a> ·
-indexed through block 63643668.</p>
+<p class="sub">Wallet <a href="https://testnet.monadexplorer.com/address/0xFC4d1DF0a3199A21dBE3ee9FD2D367A198744b03" target="_blank" rel="noopener">0xFC4d1DF0a3199A21dBE3ee9FD2D367A198744b03</a> ·
+indexed through block 63674194.</p>
 </section>
 
 <section>
@@ -80,15 +80,18 @@ indexed through block 63643668.</p>
 </section>
 
 <section>
-<h2>Session history — agent #1879</h2>
+<h2>Session history — agent #1880</h2>
 <table>
 <tr><th>Session</th><th>Wager</th><th>Payout</th><th>RTP</th></tr>
-<tr><td>2</td><td>0.001 MON</td><td>0.0012375 MON</td><td>123.75%</td></tr>
-<tr><td>3</td><td>0.001 MON</td><td>0.0017325 MON</td><td>173.25%</td></tr>
-<tr><td>4</td><td>0.001 MON</td><td>0.0004125 MON</td><td>41.25%</td></tr>
-<tr><td>5</td><td>0.001 MON</td><td>0.000825 MON</td><td>82.50%</td></tr>
+<tr><td>6</td><td>0.001 MON</td><td>0.0034237 MON</td><td>342.37%</td></tr>
+<tr><td>7</td><td>0.001 MON</td><td>0.00198 MON</td><td>198.00%</td></tr>
+<tr><td>8</td><td>0.001 MON</td><td>0.002145 MON</td><td>214.50%</td></tr>
 </table>
-<p class="sub">Session 1 opened but could not settle — the arena had no bankroll yet (by design: payouts come from the house bankroll, not thin air). Funded with 0.5 MON testnet afterwards; all later sessions settled cleanly.</p>
+<p class="sub">All sessions opened, spun and settled fully on-chain; every payout above
+comes from a <code>SessionSettled</code> event on StarforgeArena and was mirrored as
+<code>giveFeedback</code> on the official ERC-8004 ReputationRegistry (tag
+<code>starforge/session</code>). Agent #1880 replaced agent #1879 on 2026-09-18
+after the old agent's key was accidentally published — see README.</p>
 </section>
 
 <div class="foot">

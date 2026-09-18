@@ -1,10 +1,19 @@
 {
+  "agentId": 1880,
+  "agentRegistrationUri": "https://raw.githubusercontent.com/manuelfeb056-max/starforge-erc8004/master/agent/registration.json",
+  "agentReputation": "0x210D64fb460322fe90c1E7025b1700864a811577",
+  "agentWallet": "0xFC4d1DF0a3199A21dBE3ee9FD2D367A198744b03",
+  "blockhashRandomness": "0xD0574682B0c8D46c5423dd59cb1e55579CAba3c8",
   "chainId": 10143,
-  "rpc": "https://rpc.ankr.com/monad_testnet",
   "identityRegistry": "0x8004A818BFB912233c491871b3d84c89A494BD9e",
   "reputationRegistry": "0x8004B663056A597Dffe9eCcC1965A193B7388713",
-  "starforgeGame": "0x0f553b6388Ca7833fcc7e30c1cA200b79B99adA8",
-  "blockhashRandomness": "0xD0574682B0c8D46c5423dd59cb1e55579CAba3c8",
-  "agentReputation": "0x210D64fb460322fe90c1E7025b1700864a811577",
-  "starforgeArena": "0xcA53e0a7B6D85b4e84dCB1993a2780349BB4149d"
+  "rotatedFrom": {
+    "agentId": 1879,
+    "agentWallet": "0xeA682f1970bb3377498a4910BC237CE849Da64Fd",
+    "date": "2026-09-18",
+    "reason": "private key leaked in public commit b287e98 (purged from history)"
+  },
+  "rpc": "https://rpc.ankr.com/monad_testnet",
+  "starforgeArena": "0xcA53e0a7B6D85b4e84dCB1993a2780349BB4149d",
+  "starforgeGame": "0x0f553b6388Ca7833fcc7e30c1cA200b79B99adA8"
 }

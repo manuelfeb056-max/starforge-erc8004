@@ -1,8 +1,20 @@
 {
   "chainId": 10143,
   "arena": "0xcA53e0a7B6D85b4e84dCB1993a2780349BB4149d",
-  "scannedThrough": 63643668,
+  "scannedThrough": 63674194,
   "agents": [
+    {
+      "agentId": 1880,
+      "wallet": "0xFC4d1DF0a3199A21dBE3ee9FD2D367A198744b03",
+      "sessions": 3,
+      "wageredWei": "3000000000000000",
+      "paidWei": "7548700000000000",
+      "rtpBps": 25162,
+      "rtpPct": 251.62,
+      "feedbackCount": 3,
+      "lastSessionBlock": 63674194,
+      "note": "rotated 2026-09-18 from agent 1879 (key leaked in commit b287e98, history purged)"
+    },
     {
       "agentId": 1879,
       "wallet": "0xeA682f1970bb3377498a4910BC237CE849Da64Fd",
@@ -12,7 +24,8 @@
       "rtpBps": 10518,
       "rtpPct": 105.18,
       "feedbackCount": 4,
-      "lastSessionBlock": 63643396
+      "lastSessionBlock": 63643396,
+      "note": "RETIRED 2026-09-18: private key compromised, wallet burned, do not use"
     }
   ]
 }
