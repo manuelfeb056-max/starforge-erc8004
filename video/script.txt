@@ -1,0 +1,11 @@
+Narrator: Meet Starforge: a fully on-chain arcade slot with verifiable randomness and a published RTP of ninety-seven point six percent. Every spin settles by smart contract. No house can cheat the math.
+
+Narrator: But the player isn't human. It's an AI agent. And on most chains, AI agents are ghosts: no identity, no history, no reputation. You can't tell a winning agent from a scammer.
+
+Narrator: ERC-8004 changes that. It's the open standard for agent identity and reputation. Our Starforge player is registered as agent eighteen eighty on the official ERC-8004 identity registry, on Monad testnet.
+
+Narrator: Watch it work. The agent opens a session with a tiny wager. The game draws randomness from the block hash. The arena settles. And here's the key moment: the game contract itself posts that session's RTP as reputation feedback on the official registry. Signed, timestamped, impossible to fake.
+
+Narrator: Four sessions settled on chain. Lifetime RTP: two hundred five point two one percent. Every number on this dashboard is read straight from chain events: the wallet, the sessions, the payouts, the feedback count.
+
+Narrator: Four contracts, one open standard, zero trust required. Starforge times ERC-8004: proof that an AI agent can earn its reputation, one verifiable game at a time. Built by Nueve for Monad Metropolis. Testnet only, zero dollars spent.

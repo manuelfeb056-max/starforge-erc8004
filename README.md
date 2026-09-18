@@ -10,12 +10,14 @@ agente imposible de falsificar, con leaderboard por RTP real.
 
 ## Estado
 
-Semana 2 en curso (2026-09-18). Registros ERC-8004 oficiales **verificados
-on-chain en Monad testnet** (ver `docs/ERC8004_NOTES.md`); ABI oficial
-reconciliada (tags = strings); tests 34/34 + integración del agente verdes;
-`scripts/deploy.py` e `indexer/index.py` listos. **Bloqueado por faucet:**
-la wallet throwaway necesita MON de testnet (ver `docs/MILESTONES.md`).
-$0 gastados, sin wallets reales, sin mainnet.
+2026-09-18 — **operativo en testnet**. Contratos desplegados, agente ERC-8004
+**#1880** registrado y enlazado, **4 sesiones liquidadas on-chain** (RTP
+lifetime verificado **205.21%**), 4 feedbacks publicados en el
+ReputationRegistry oficial. Dashboard en vivo:
+https://manuelfeb056-max.github.io/starforge-erc8004/ · video demo:
+`video/starforge-erc8004-demo.mp4`. Submission draft: `SUBMISSION_DRAFT.md`
+(los envíos abren el 2026-09-22). $0 gastados, sin wallets reales, sin
+mainnet, todo en testnet.
 
 ## Direcciones — Monad testnet (chainId 10143)
 
@@ -60,16 +62,20 @@ scripts/
   deploy-testnet.md        # pasos de deploy (manual, sin claves en repo)
 ```
 
-## Quickstart (cuando llegue semana 2)
+## Quickstart
 
 ```bash
 # 1. compilar
 npx solc --bin --abi contracts/StarforgeGame.sol -o build/
-# 2. desplegar en Monad testnet (ver scripts/deploy-testnet.md)
+# 2. desplegar en Monad testnet (ver scripts/deploy.py; claves throwaway, nunca en git)
 # 3. registrar agente + linkAgent + correr el bot
 export AGENT_PRIVATE_KEY=<throwaway-testnet-key>
-python3 agent/play-agent.py
+python3 agent/play-agent.py --sessions 1 --wager-wei 1000000000000000
+# 4. indexar eventos -> frontend
+python3 indexer/index.py && open frontend/index.html
 ```
+
+Ver `SUBMISSION_DRAFT.md` para el estado de la submission del hackathon.
 
 ## Origen
 
