@@ -1,6 +1,3 @@
-node_modules/
-build/
-*.log
-.env
-.deployer.key
+.venv/
+*.key
 __pycache__/
