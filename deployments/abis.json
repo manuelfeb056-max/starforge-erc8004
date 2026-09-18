@@ -1,0 +1,1919 @@
+{
+  "AgentReputation": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_identityRegistry",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_reputationRegistry",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "AlreadyLinked",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ArenaAlreadySet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotAgentOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyArena",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyOwner",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "wallet",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        }
+      ],
+      "name": "AgentLinked",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "rtpBps",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "payout",
+          "type": "uint256"
+        }
+      ],
+      "name": "SessionRecorded",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "TAG_GAME",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TAG_SESSION",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "agentPaid",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "agentSessions",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "agentWagered",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "arena",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "identityRegistry",
+      "outputs": [
+        {
+          "internalType": "contract IERC8004Identity",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        }
+      ],
+      "name": "lifetimeRtpBps",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        }
+      ],
+      "name": "linkAgent",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "wager",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "payout",
+          "type": "uint256"
+        }
+      ],
+      "name": "recordSession",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reputationRegistry",
+      "outputs": [
+        {
+          "internalType": "contract IERC8004Reputation",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_arena",
+          "type": "address"
+        }
+      ],
+      "name": "setArena",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "walletToAgent",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "StarforgeArena": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_game",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_randomness",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "AlreadySettled",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "BadArtifacts",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "BadStage",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotPlayer",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "RandomnessNotReady",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ReputationAlreadySet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ZeroWager",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "gambled",
+          "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "picksBps",
+          "type": "uint256"
+        }
+      ],
+      "name": "PicksSubmitted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "wager",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "artifacts",
+          "type": "uint8"
+        }
+      ],
+      "name": "SessionOpened",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "payout",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalBps",
+          "type": "uint256"
+        }
+      ],
+      "name": "SessionSettled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "stage",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "gridWinBps",
+          "type": "uint256"
+        }
+      ],
+      "name": "SpinSettled",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "forfeit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "fulfillGamble",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "fulfillSpin",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "game",
+      "outputs": [
+        {
+          "internalType": "contract StarforgeGame",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSpin",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "stage",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gridWinBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "artifacts",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16[12]",
+              "name": "prizes",
+              "type": "uint16[12]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "grids",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "stepWins",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "uint8[]",
+              "name": "stepPats",
+              "type": "uint8[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "stepCount",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "picksBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8[5]",
+              "name": "picks",
+              "type": "uint8[5]"
+            },
+            {
+              "internalType": "bool",
+              "name": "gambleWin",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalBps",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct StarforgeGame.SpinResult",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "artifacts",
+          "type": "uint8"
+        }
+      ],
+      "name": "openSession",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "randomness",
+      "outputs": [
+        {
+          "internalType": "contract IRandomness",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reputation",
+      "outputs": [
+        {
+          "internalType": "contract AgentReputation",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "sessions",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "wager",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "artifacts",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "stage",
+          "type": "uint8"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "stage",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gridWinBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "artifacts",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16[12]",
+              "name": "prizes",
+              "type": "uint16[12]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "grids",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "stepWins",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "uint8[]",
+              "name": "stepPats",
+              "type": "uint8[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "stepCount",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "picksBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8[5]",
+              "name": "picks",
+              "type": "uint8[5]"
+            },
+            {
+              "internalType": "bool",
+              "name": "gambleWin",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalBps",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct StarforgeGame.SpinResult",
+          "name": "spin",
+          "type": "tuple"
+        },
+        {
+          "internalType": "uint32",
+          "name": "randomnessId",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_reputation",
+          "type": "address"
+        }
+      ],
+      "name": "setReputation",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8[5]",
+          "name": "picks",
+          "type": "uint8[5]"
+        },
+        {
+          "internalType": "bool",
+          "name": "gamble",
+          "type": "bool"
+        }
+      ],
+      "name": "submitPicks",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "StarforgeGame": [
+    {
+      "inputs": [],
+      "name": "StarforgeGame__BadArtifacts",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StarforgeGame__BadPicks",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "StarforgeGame__BadStage",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "RTP_BPS",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "stage",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gridWinBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "artifacts",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16[12]",
+              "name": "prizes",
+              "type": "uint16[12]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "grids",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "stepWins",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "uint8[]",
+              "name": "stepPats",
+              "type": "uint8[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "stepCount",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "picksBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8[5]",
+              "name": "picks",
+              "type": "uint8[5]"
+            },
+            {
+              "internalType": "bool",
+              "name": "gambleWin",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalBps",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct StarforgeGame.SpinResult",
+          "name": "res",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "seed",
+          "type": "bytes32"
+        }
+      ],
+      "name": "applyGamble",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "stage",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gridWinBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "artifacts",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16[12]",
+              "name": "prizes",
+              "type": "uint16[12]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "grids",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "stepWins",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "uint8[]",
+              "name": "stepPats",
+              "type": "uint8[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "stepCount",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "picksBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8[5]",
+              "name": "picks",
+              "type": "uint8[5]"
+            },
+            {
+              "internalType": "bool",
+              "name": "gambleWin",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalBps",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct StarforgeGame.SpinResult",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "stage",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gridWinBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "artifacts",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16[12]",
+              "name": "prizes",
+              "type": "uint16[12]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "grids",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "stepWins",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "uint8[]",
+              "name": "stepPats",
+              "type": "uint8[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "stepCount",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "picksBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8[5]",
+              "name": "picks",
+              "type": "uint8[5]"
+            },
+            {
+              "internalType": "bool",
+              "name": "gambleWin",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalBps",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct StarforgeGame.SpinResult",
+          "name": "res",
+          "type": "tuple"
+        },
+        {
+          "internalType": "uint8[5]",
+          "name": "picks",
+          "type": "uint8[5]"
+        },
+        {
+          "internalType": "bool",
+          "name": "gamble",
+          "type": "bool"
+        }
+      ],
+      "name": "applyPicks",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "stage",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gridWinBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "artifacts",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16[12]",
+              "name": "prizes",
+              "type": "uint16[12]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "grids",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "stepWins",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "uint8[]",
+              "name": "stepPats",
+              "type": "uint8[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "stepCount",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "picksBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8[5]",
+              "name": "picks",
+              "type": "uint8[5]"
+            },
+            {
+              "internalType": "bool",
+              "name": "gambleWin",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalBps",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct StarforgeGame.SpinResult",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "wager",
+          "type": "uint256"
+        }
+      ],
+      "name": "expectedPayout",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "wager",
+          "type": "uint256"
+        }
+      ],
+      "name": "maxPayoutFor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "wager",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "winBps",
+          "type": "uint256"
+        }
+      ],
+      "name": "payoutFor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "seed",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint8",
+          "name": "artifacts",
+          "type": "uint8"
+        }
+      ],
+      "name": "spin",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "stage",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gridWinBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "artifacts",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16[12]",
+              "name": "prizes",
+              "type": "uint16[12]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "grids",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "stepWins",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "uint8[]",
+              "name": "stepPats",
+              "type": "uint8[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "stepCount",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "picksBps",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8[5]",
+              "name": "picks",
+              "type": "uint8[5]"
+            },
+            {
+              "internalType": "bool",
+              "name": "gambleWin",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalBps",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct StarforgeGame.SpinResult",
+          "name": "res",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "IERC8004Identity": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "metadataKey",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "metadataValue",
+          "type": "bytes"
+        }
+      ],
+      "name": "MetadataSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "agentURI",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "Registered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "newURI",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "updatedBy",
+          "type": "address"
+        }
+      ],
+      "name": "URIUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAgentWallet",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "key",
+          "type": "string"
+        }
+      ],
+      "name": "getMetadata",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "ownerOf",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "register",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "agentURI",
+          "type": "string"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "metadataKey",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes",
+              "name": "metadataValue",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct IERC8004Identity.MetadataEntry[]",
+          "name": "metadata",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "register",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "newURI",
+          "type": "string"
+        }
+      ],
+      "name": "setAgentURI",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "key",
+          "type": "string"
+        },
+        {
+          "internalType": "bytes",
+          "name": "value",
+          "type": "bytes"
+        }
+      ],
+      "name": "setMetadata",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "IERC8004Reputation": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "clientAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint64",
+          "name": "feedbackIndex",
+          "type": "uint64"
+        },
+        {
+          "indexed": false,
+          "internalType": "int128",
+          "name": "value",
+          "type": "int128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "valueDecimals",
+          "type": "uint8"
+        },
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "indexedTag1",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "tag1",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "tag2",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "endpoint",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "feedbackURI",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "feedbackHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "NewFeedback",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address[]",
+          "name": "clientAddresses",
+          "type": "address[]"
+        },
+        {
+          "internalType": "string",
+          "name": "tag1",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "tag2",
+          "type": "string"
+        }
+      ],
+      "name": "getSummary",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "count",
+          "type": "uint64"
+        },
+        {
+          "internalType": "int128",
+          "name": "summaryValue",
+          "type": "int128"
+        },
+        {
+          "internalType": "uint8",
+          "name": "summaryValueDecimals",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int128",
+          "name": "value",
+          "type": "int128"
+        },
+        {
+          "internalType": "uint8",
+          "name": "valueDecimals",
+          "type": "uint8"
+        },
+        {
+          "internalType": "string",
+          "name": "tag1",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "tag2",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "endpoint",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "feedbackURI",
+          "type": "string"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "feedbackHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "giveFeedback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "clientAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint64",
+          "name": "feedbackIndex",
+          "type": "uint64"
+        }
+      ],
+      "name": "readFeedback",
+      "outputs": [
+        {
+          "internalType": "int128",
+          "name": "value",
+          "type": "int128"
+        },
+        {
+          "internalType": "uint8",
+          "name": "valueDecimals",
+          "type": "uint8"
+        },
+        {
+          "internalType": "string",
+          "name": "tag1",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "tag2",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "isRevoked",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "agentId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint64",
+          "name": "feedbackIndex",
+          "type": "uint64"
+        }
+      ],
+      "name": "revokeFeedback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "BlockhashRandomness": [
+    {
+      "inputs": [],
+      "name": "AlreadyFulfilled",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotReady",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "UnknownRequest",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "requestId",
+          "type": "uint32"
+        }
+      ],
+      "name": "fulfillRandomness",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "randomness",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "name": "fulfilled",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "requestId",
+          "type": "uint32"
+        }
+      ],
+      "name": "isReady",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "requestRandomness",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "requestId",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "name": "targetBlock",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "IRandomness": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "requestId",
+          "type": "uint32"
+        }
+      ],
+      "name": "fulfillRandomness",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "randomness",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "requestId",
+          "type": "uint32"
+        }
+      ],
+      "name": "isReady",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "requestRandomness",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "requestId",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

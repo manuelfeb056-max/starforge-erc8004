@@ -74,20 +74,29 @@ def main() -> None:
     latest = w3.eth.block_number
     print(f"scanning blocks {args.from_block}..{latest}")
 
+    def chunked_logs(event, lo, hi, step=100):
+        out = []
+        b = lo
+        while b <= hi:
+            e = min(b + step - 1, hi)
+            out += event.get_logs(from_block=b, to_block=e)
+            b = e + 1
+        return out
+
     # 1. wallet -> agentId links
     wallet_of = {}   # agentId -> wallet
-    for ev in rep.events.AgentLinked().get_logs(from_block=args.from_block, to_block=latest):
+    for ev in chunked_logs(rep.events.AgentLinked(), args.from_block, latest):
         a = ev["args"]
         wallet_of[a["agentId"]] = a["wallet"]
     print(f"  AgentLinked: {len(wallet_of)} agents")
 
     # 2. sessions: join Opened (wager) + Settled (payout)
     wagers = {}
-    for ev in arena.events.SessionOpened().get_logs(from_block=args.from_block, to_block=latest):
+    for ev in chunked_logs(arena.events.SessionOpened(), args.from_block, latest):
         a = ev["args"]
         wagers[a["sessionId"]] = {"player": a["player"], "wager": a["wager"],
                                   "block": ev["blockNumber"]}
-    settled = arena.events.SessionSettled().get_logs(from_block=args.from_block, to_block=latest)
+    settled = chunked_logs(arena.events.SessionSettled(), args.from_block, latest)
     print(f"  sessions: {len(wagers)} opened, {len(settled)} settled")
 
     agents = {}
@@ -109,7 +118,7 @@ def main() -> None:
         st["lastBlock"] = max(st["lastBlock"], ev["blockNumber"])
 
     # 3. on-chain feedback count from the official registry (client = our AgentReputation)
-    for ev in reg.events.NewFeedback().get_logs(from_block=args.from_block, to_block=latest):
+    for ev in chunked_logs(reg.events.NewFeedback(), args.from_block, latest):
         a = ev["args"]
         if a["clientAddress"].lower() != dep["agentReputation"].lower():
             continue

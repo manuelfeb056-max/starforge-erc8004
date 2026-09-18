@@ -76,8 +76,13 @@ def send_tx(tx):
     tx.update({
         "from": acct.address,
         "nonce": w3.eth.get_transaction_count(acct.address),
-        "gasPrice": w3.eth.gas_price,
     })
+    # EIP-1559 chains: build_transaction already fills maxFeePerGas;
+    # mixing gasPrice with it breaks signing. Use one fee model only.
+    if "maxFeePerGas" in tx:
+        tx.pop("gasPrice", None)
+    else:
+        tx["gasPrice"] = w3.eth.gas_price
     tx["gas"] = w3.eth.estimate_gas(tx)
     signed = acct.sign_transaction(tx)
     h = w3.eth.send_raw_transaction(signed.raw_transaction)
@@ -90,7 +95,7 @@ def send_tx(tx):
 def deploy(artifacts, name, *args):
     abi, bytecode = artifacts[name]
     c = w3.eth.contract(abi=abi, bytecode=bytecode)
-    rcpt = send_tx(c.constructor(*args).build_transaction({}))
+    rcpt = send_tx(c.constructor(*args).build_transaction({"from": acct.address}))
     addr = rcpt["contractAddress"]
     print(f"  {name} -> {addr} (tx {rcpt['transactionHash'].hex()[:16]}...)")
     return addr, abi
@@ -112,11 +117,11 @@ def main():
 
     print("wiring...")
     rep = w3.eth.contract(address=rep_addr, abi=rep_abi)
-    send_tx(rep.functions.setArena(arena_addr).build_transaction({}))
+    send_tx(rep.functions.setArena(arena_addr).build_transaction({"from": acct.address}))
     print("  AgentReputation.setArena done")
     _, arena_abi_full = artifacts["StarforgeArena"]
     arena = w3.eth.contract(address=arena_addr, abi=arena_abi_full)
-    send_tx(arena.functions.setReputation(rep_addr).build_transaction({}))
+    send_tx(arena.functions.setReputation(rep_addr).build_transaction({"from": acct.address}))
     print("  StarforgeArena.setReputation done")
 
     deployed.update({
