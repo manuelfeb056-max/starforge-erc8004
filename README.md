@@ -10,8 +10,26 @@ agente imposible de falsificar, con leaderboard por RTP real.
 
 ## Estado
 
-Scaffold inicial (2026-09-18). Contratos escritos, sin desplegar.
-Todo apunta a **Monad testnet**; $0 gastados, sin wallets reales.
+Semana 2 en curso (2026-09-18). Registros ERC-8004 oficiales **verificados
+on-chain en Monad testnet** (ver `docs/ERC8004_NOTES.md`); ABI oficial
+reconciliada (tags = strings); tests 34/34 + integración del agente verdes;
+`scripts/deploy.py` e `indexer/index.py` listos. **Bloqueado por faucet:**
+la wallet throwaway necesita MON de testnet (ver `docs/MILESTONES.md`).
+$0 gastados, sin wallets reales, sin mainnet.
+
+## Direcciones — Monad testnet (chainId 10143)
+
+| Contrato | Dirección |
+|---|---|
+| ERC-8004 IdentityRegistry (oficial) | `0x8004A818BFB912233c491871b3d84c89A494BD9e` |
+| ERC-8004 ReputationRegistry (oficial) | `0x8004B663056A597Dffe9eCcC1965A193B7388713` |
+| StarforgeGame | _(pendiente: deploy tras faucet)_ |
+| BlockhashRandomness | _(pendiente)_ |
+| AgentReputation | _(pendiente)_ |
+| StarforgeArena | _(pendiente)_ |
+
+RPC: `https://rpc.ankr.com/monad_testnet` (el oficial `testnet-rpc.monad.xyz`
+no respondía el 2026-09-18).
 
 ## Estructura
 

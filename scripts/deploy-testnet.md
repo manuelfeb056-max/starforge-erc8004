@@ -1,25 +1,38 @@
-# Deploy en Monad testnet — pasos manuales (semana 2)
+# Deploy en Monad testnet — semana 2
 
 > Sin claves en el repo. Usar wallet throwaway solo para testnet.
 > Nada de mainnet.
 
-Monad testnet: chainId **10143**, RPC `https://testnet-rpc.monad.xyz`.
+Monad testnet: chainId **10143**, RPC `https://rpc.ankr.com/monad_testnet`
+(verificado 2026-09-18; el oficial `testnet-rpc.monad.xyz` no respondía).
 
-## Orden de deploy
+## Registros ERC-8004: usar los oficiales (verificado on-chain 2026-09-18)
 
-1. **Registros ERC-8004** — primero revisar si ya existe deployment oficial
-   en Monad testnet (ver `docs/ERC8004_NOTES.md`). Si no:
-   desplegar la implementación de referencia
-   (BillionsNetwork/erc-8004-contracts): `IdentityRegistry`,
-   `ReputationRegistry`. Anotar direcciones.
-2. `StarforgeGame` — sin args.
-3. `BlockhashRandomness` — sin args.
-4. `AgentReputation(identityRegistry, reputationRegistry)` — sin arena aún.
-5. `StarforgeArena(game, randomness)` — sin reputation aún.
-6. Wiring (owner = deployer):
-   - `AgentReputation.setArena(arena)`
-   - `StarforgeArena.setReputation(agentReputation)`
-7. Verificar wiring: `arena.reputation()`, `agentReputation.arena()`.
+NO desplegar registros propios. Ambos son proxies ERC1967 ya desplegados:
+- Identity: `0x8004A818BFB912233c491871b3d84c89A494BD9e`
+- Reputation: `0x8004B663056A597Dffe9eCcC1965A193B7388713`
+
+## Deploy automatizado
+
+```bash
+export DEPLOYER_KEY=<throwaway-testnet-key>   # nunca una wallet real
+python3 scripts/deploy.py
+```
+
+Despliega: `StarforgeGame` → `BlockhashRandomness` →
+`AgentReputation(identity, reputation)` → `StarforgeArena(game, randomness)`,
+luego el wiring `setArena` / `setReputation` (one-time, solo owner).
+Escribe `deployments/testnet.json` + `deployments/abis.json`.
+
+## BLOQUEO ACTUAL: faucet
+
+La wallet throwaway `0x129198ABEcbAcca464eD9Da7f9AC3be397A463fA` necesita MON
+de testnet. Opciones (todas gratuitas, $0):
+- https://www.alchemy.com/faucets/monad-testnet — sin cuenta, solo pegar
+  dirección + Turnstile (30s desde el teléfono).
+- https://faucet.quicknode.com/monad/testnet — sin cuenta, con verificación.
+- El faucet oficial (faucet.monad.xyz) exige 10 MON en mainnet o 0.001 ETH
+  en L1/L2 — no aplica a wallets nuevas.
 
 ## Registro del agente demo
 

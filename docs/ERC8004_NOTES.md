@@ -47,18 +47,22 @@ sin gatekeepers. Pagos explícitamente fuera de alcance.
   matemática (Monte Carlo 10M, paridad contrato/simulador) como evidencia
   de validación del juego — opcional en semana 3.
 
-## Deployments conocidos (2026-09-18)
+## Deployments conocidos (2026-09-18, verificado on-chain 2026-09-18)
 
 - Direcciones canónicas (CREATE2, mismas en varias redes):
-  - Identity: `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` (XLayer mainnet)
+  - Identity: `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` (mainnets, incl. Monad mainnet 143)
   - Identity (testnets): `0x8004A818BFB912233c491871b3d84c89A494BD9e`
   - Reputation (testnets): `0x8004B663056A597Dffe9eCcC1965A193B7388713`
-  - Repo sekmet: `0x7177...Dd09A` (Identity)
-- **Monad: sin deployment listado** ("More chains coming soon").
-  → Plan: desplegar la implementación de referencia
-  (BillionsNetwork/erc-8004-contracts) en Monad testnet nosotros mismos,
-  o usar las direcciones canónicas si aparecen antes del deadline.
+- **Monad testnet (10143): DEPLOYMENT OFICIAL CONFIRMADO on-chain.**
+  Ambos son proxies ERC1967 con implementaciones distintas:
+  - IdentityRegistry: `0x8004A818BFB912233c491871b3d84c89A494BD9e`
+    (impl `0x7274E874CA62410a93bd8Bf61c69D8045e399c02`)
+  - ReputationRegistry: `0x8004B663056A597Dffe9eCcC1965A193B7388713`
+    (impl `0x16e0Fa7f7C56b9a767e34B192b51F921BE31dA34`)
+  → NO hace falta desplegar registros propios. Usar estas direcciones.
 - Explorador: `https://8004scan.io`.
+- RPC funcional desde nuestra VM: `https://rpc.ankr.com/monad_testnet`
+  (chainId 10143 verificado; el oficial `testnet-rpc.monad.xyz` no responde).
 
 ## Decisiones de diseño para Starforge × ERC-8004
 
@@ -75,9 +79,24 @@ sin gatekeepers. Pagos explícitamente fuera de alcance.
 5. Metadata de descubrimiento: `setMetadata(agentId, "starforge_player", 0x01)`
    para filtrar agentes-jugadores (patrón `swarm_ai_capable`).
 
-## Preguntas abiertas (resolver semana 1-2)
-- [ ] ¿Aparece deployment oficial de ERC-8004 en Monad testnet? Revisar
-      8004scan.io y el repo de BillionsNetwork antes de desplegar el nuestro.
-- [ ] Confirmar firma exacta de `giveFeedback` contra el ABI desplegado
-      (nuestra interfaz es el subset documentado; verificar orden de params).
-- [ ] Decidir data-URI vs JSON hospedado para `agentURI` (default: data-URI).
+## Preguntas abiertas (resueltas semana 2)
+- [x] ¿Aparece deployment oficial de ERC-8004 en Monad testnet? **SÍ —
+      verificado on-chain** (proxies ERC1967 en las direcciones canónicas;
+      ver "Deployments conocidos" arriba). No desplegamos registros propios.
+- [x] Confirmar firma exacta de `giveFeedback` contra el ABI oficial
+      (erc-8004-contracts, ReputationRegistryUpgradeable.sol). **HALLAZGO:
+      los tags son `string`, no `bytes32`.** Nuestra interfaz asumía
+      bytes32 (el selector habría sido distinto y la llamada habría
+      revertido en testnet). Corregido en `contracts/interfaces/IERC8004.sol`
+      + `AgentReputation.sol` (tags `"starforge"`/`"session"` como strings)
+      + mocks de tests. También corregidas: `readFeedback` devuelve
+      `(int128,uint8,string,string,bool)` con índice `uint64` 1-indexed;
+      `getSummary` devuelve `(uint64,int128,uint8)`; `revokeFeedback`
+      toma `uint64`. Evento `NewFeedback` con firma oficial exacta.
+- [x] Decidir data-URI vs JSON hospedado para `agentURI`: **data-URI**
+      (cero infraestructura). `agent/registration.json` es la plantilla.
+- [x] Nota de compilación: el call de 8 args con strings dinámicos
+      desborda el codegen legacy ("stack too deep"). Solución: compilar
+      todo con **via-IR** (`tests/solcx_build.py` + `scripts/deploy.py`);
+      además `recordSession` delega el post en `_postFeedback` interno.
+      Tests: 34/34 + integración del agente, todo verde.

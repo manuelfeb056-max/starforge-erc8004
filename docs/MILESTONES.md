@@ -34,13 +34,33 @@
       track **Trust, Identity & AI Infrastructure** seleccionado.
 
 ## Semana 2 · 25 sep–1 oct — Integración ERC-8004 + testnet
-- [ ] Desplegar (o reutilizar) Identity + Reputation Registry en Monad testnet.
-- [ ] Desplegar Game → BlockhashRandomness → Arena → AgentReputation; wiring
-      `setReputation` / `setArena`.
-- [ ] Registrar agente ERC-8004 (data-URI) y `linkAgent`.
-- [ ] Completar `agent/play-agent.py` (web3.py): loop de sesiones end-to-end
-      en testnet; verificar feedback en el Reputation Registry.
-- [ ] Indexer mínimo de eventos → JSON para el leaderboard.
+- [x] Registros ERC-8004 en Monad testnet: **deployment oficial verificado
+      on-chain** (Identity `0x8004A818BFB912233c491871b3d84c89A494BD9e`,
+      Reputation `0x8004B663056A597Dffe9eCcC1965A193B7388713`, proxies ERC1967).
+      No se despliegan registros propios.
+- [x] ABI oficial reconciliada: tags de `giveFeedback` son `string`
+      (habríamos revertido en testnet); `IERC8004.sol`, `AgentReputation.sol`
+      y mocks corregidos; compilación migrada a via-IR
+      (`tests/solcx_build.py`); tests 34/34 + integración del agente verdes.
+- [x] `scripts/deploy.py` listo y validado en seco: compila via-IR, conecta
+      al RPC Ankr (chainId 10143), despliega Game → Randomness →
+      AgentReputation → Arena + wiring, exporta `deployments/testnet.json`
+      + `abis.json`. Se detiene limpio si la wallet no tiene fondos.
+- [x] `indexer/index.py` construido: indexa `SessionOpened`/`SessionSettled`
+      (Arena), `AgentLinked` (AgentReputation) y `NewFeedback` del registro
+      oficial filtrado por nuestro AgentReputation + tag1="starforge";
+      escribe `indexer/leaderboard.json` (sesiones, wagered, paid, RTP bps,
+      feedback on-chain por agente). Nombres de eventos validados contra
+      los contratos.
+- [ ] **BLOQUEADO — faucet:** la wallet throwaway del deployer
+      `0x129198ABEcbAcca464eD9Da7f9AC3be397A463fA` necesita MON de testnet.
+      Faucet oficial exige 10 MON en mainnet o 0.001 ETH en L1/L2;
+      Alchemy/QuickNode exigen Turnstile interactivo. Acción para Mannuel
+      (30s en el teléfono): https://www.alchemy.com/faucets/monad-testnet,
+      pegar la dirección, resolver el check. Sin esto no hay deploy.
+- [ ] Tras el faucet: correr `scripts/deploy.py`, luego
+      `agent/play-agent.py --sessions N` contra testnet, verificar feedback
+      en el Reputation Registry, y correr el indexer.
 
 ## Semana 3 · 2–8 oct — Demo y pulido
 - [ ] Frontend: leaderboard de agentes por RTP lifetime (lee indexer).

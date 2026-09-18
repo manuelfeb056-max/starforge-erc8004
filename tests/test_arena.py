@@ -8,11 +8,13 @@ import os
 import sys
 
 ROOT = os.path.expanduser("~/workspace/monad/starforge-erc8004")
+sys.path.insert(0, os.path.join(ROOT, "tests"))
 
 import solcx  # noqa: E402
 from eth_hash.auto import keccak  # noqa: E402
 from web3 import Web3  # noqa: E402
 from web3.providers.eth_tester import EthereumTesterProvider  # noqa: E402
+from solcx_build import compile_files_via_ir, compile_source_via_ir  # noqa: E402
 
 solcx.install_solc("0.8.28")
 solcx.set_solc_version("0.8.28")
@@ -28,9 +30,9 @@ contract MockIdentity {
     function getAgentWallet(uint256 id) external view returns (address) { return wallets[id]; }
 }
 contract MockReputation {
-    struct Fb { uint256 agentId; int128 value; uint8 dec; bytes32 t1; bytes32 t2; }
+    struct Fb { uint256 agentId; int128 value; uint8 dec; string t1; string t2; }
     Fb[] public fbs;
-    function giveFeedback(uint256 a, int128 v, uint8 d, bytes32 t1, bytes32 t2,
+    function giveFeedback(uint256 a, int128 v, uint8 d, string calldata t1, string calldata t2,
                           string calldata, string calldata, bytes32) external {
         fbs.push(Fb(a, v, d, t1, t2));
     }
@@ -61,16 +63,12 @@ files = [
     os.path.join(contracts_dir, "AgentReputation.sol"),
     os.path.join(contracts_dir, "randomness", "BlockhashRandomness.sol"),
 ]
-compiled = solcx.compile_files(files, output_values=["abi", "bin"],
-                               solc_version="0.8.28", allow_paths=contracts_dir)
-mocked = solcx.compile_source(MOCK_SRC, output_values=["abi", "bin"], solc_version="0.8.28")
+compiled = compile_files_via_ir(files, contracts_dir)
+mocked = compile_source_via_ir(MOCK_SRC)
 
 
 def get(compiled_dict, name):
-    for cid, cdef in compiled_dict.items():
-        if cid.endswith(":" + name):
-            return cdef
-    raise KeyError(name)
+    return compiled_dict[name]
 
 
 w3 = Web3(EthereumTesterProvider())
@@ -237,7 +235,7 @@ fb = mock_rep.functions.fbs(fb0).call()
 info5 = settle_info(arena_mock, sid5)
 exp_rtp = (game.functions.payoutFor(WAGER, info5["totalBps"]).call() * 10000) // WAGER
 check("feedback value=session RTP bps", fb[1] == exp_rtp, f"{fb[1]} vs {exp_rtp}")
-check("feedback tags", fb[3] == keccak(b"starforge") and fb[4] == keccak(b"session"))
+check("feedback tags", fb[3] == "starforge" and fb[4] == "session")
 check("lifetimeRtpBps", reputation2.functions.lifetimeRtpBps(42).call() == exp_rtp)
 check("agentSessions==1", reputation2.functions.agentSessions(42).call() == 1)
 # unlinked player earns no feedback

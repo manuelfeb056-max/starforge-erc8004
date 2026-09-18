@@ -12,6 +12,7 @@ import sys
 
 ROOT = os.path.expanduser("~/workspace/monad/starforge-erc8004")
 sys.path.insert(0, os.path.join(ROOT, "agent"))
+sys.path.insert(0, os.path.join(ROOT, "tests"))
 
 import solcx  # noqa: E402
 from eth_hash.auto import keccak  # noqa: E402
@@ -19,6 +20,7 @@ from web3 import Web3  # noqa: E402
 from web3.providers.eth_tester import EthereumTesterProvider  # noqa: E402
 from eth_account import Account  # noqa: E402
 import importlib.util  # noqa: E402
+from solcx_build import compile_files_via_ir, compile_source_via_ir  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location(
     "play_agent", os.path.join(ROOT, "agent", "play-agent.py"))
@@ -32,9 +34,8 @@ files = [
     os.path.join(contracts_dir, "StarforgeArena.sol"),
     os.path.join(contracts_dir, "AgentReputation.sol"),
 ]
-compiled = solcx.compile_files(files, output_values=["abi", "bin"],
-                               solc_version="0.8.28", allow_paths=contracts_dir)
-mocked = solcx.compile_source(play_agent.__doc__ and """
+compiled = compile_files_via_ir(files, contracts_dir)
+mocked = compile_source_via_ir(play_agent.__doc__ and """
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 contract MockIdentity {
@@ -45,7 +46,7 @@ contract MockIdentity {
 }
 contract MockReputation {
     uint256 public n;
-    function giveFeedback(uint256,int128,uint8,bytes32,bytes32,string calldata,string calldata,bytes32) external { n++; }
+    function giveFeedback(uint256,int128,uint8,string calldata,string calldata,string calldata,string calldata,bytes32) external { n++; }
 }
 interface IRandomness {
     function requestRandomness() external returns (uint32);
@@ -61,11 +62,11 @@ contract MockRandomness is IRandomness {
         require(ready[id]); ready[id] = false; return nextSeed;
     }
 }
-""", output_values=["abi", "bin"], solc_version="0.8.28")
+""")
 
 
 def get(d, name):
-    return next(c for cid, c in d.items() if cid.endswith(":" + name))
+    return d[name]
 
 
 w3 = Web3(EthereumTesterProvider())

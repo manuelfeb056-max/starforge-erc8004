@@ -21,8 +21,8 @@ contract AgentReputation {
     address public arena;
     address public immutable owner;
 
-    bytes32 public constant TAG_GAME = keccak256("starforge");
-    bytes32 public constant TAG_SESSION = keccak256("session");
+    string public constant TAG_GAME = "starforge";
+    string public constant TAG_SESSION = "session";
 
     /// @notice player wallet => ERC-8004 agentId (0 = not linked)
     mapping(address => uint256) public walletToAgent;
@@ -86,6 +86,18 @@ contract AgentReputation {
             ? type(int128).max
             : int128(uint128(rtpBps));
 
+        _postFeedback(agentId, value);
+
+        agentSessions[agentId] += 1;
+        agentWagered[agentId] += wager;
+        agentPaid[agentId] += payout;
+        emit SessionRecorded(agentId, rtpBps, payout);
+    }
+
+    /// @dev Split out to keep recordSession's stack shallow (string tags are
+    ///      dynamic types; one external call frame per function avoids
+    ///      "stack too deep" on the legacy codegen pipeline).
+    function _postFeedback(uint256 agentId, int128 value) internal {
         reputationRegistry.giveFeedback(
             agentId,
             value,
@@ -93,14 +105,9 @@ contract AgentReputation {
             TAG_GAME,
             TAG_SESSION,
             "", // endpoint: none (feedback client is the Arena contract itself)
-            "", // fileUri: none
+            "", // feedbackURI: none
             bytes32(0)
         );
-
-        agentSessions[agentId] += 1;
-        agentWagered[agentId] += wager;
-        agentPaid[agentId] += payout;
-        emit SessionRecorded(agentId, rtpBps, payout);
     }
 
     /// @notice Lifetime RTP (bps) for an agent, from our own accounting.
